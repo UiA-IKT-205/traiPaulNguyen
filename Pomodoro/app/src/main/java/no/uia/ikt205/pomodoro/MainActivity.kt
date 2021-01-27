@@ -14,9 +14,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var timer:CountDownTimer
     lateinit var startButton:Button
     lateinit var coutdownDisplay:TextView
+    lateinit var thirtybtn:Button
+    lateinit var sixtybtn:Button
+    lateinit var ninetybtn:Button
+    lateinit var hundredtwentybtn: Button
+    private var timerOn:Boolean = false
 
-    val timeToCountDownInMs = 5000L
-    val timeTicks = 1000L
+
+    private var timeToCountDownInMs = 5000L
+    private val timeTicks = 1000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +32,51 @@ class MainActivity : AppCompatActivity() {
        startButton.setOnClickListener(){
            startCountDown(it)
        }
+
+        // 30 second count
+        thirtybtn = findViewById<Button>(R.id.button1)
+        thirtybtn.setOnClickListener(){
+            // Put countdown to 1800000 ms
+            timeToCountDownInMs = 1800000L
+            // Timer on check
+            if (timerOn){
+                Toast.makeText(this@MainActivity,"Nedtelling pågår", Toast.LENGTH_SHORT).show()
+            }
+            // Update time in display
+            else
+                updateCountDownDisplay(timeToCountDownInMs)
+        }
+
+        // 60 second count
+        sixtybtn = findViewById<Button>(R.id.button2)
+        sixtybtn.setOnClickListener(){
+            timeToCountDownInMs = 3600000L
+            if (timerOn){
+                Toast.makeText(this@MainActivity,"Nedtelling pågår", Toast.LENGTH_SHORT).show()
+            } else
+                updateCountDownDisplay(timeToCountDownInMs)
+        }
+
+        // 90 second count
+        ninetybtn = findViewById<Button>(R.id.button3)
+        ninetybtn.setOnClickListener(){
+            timeToCountDownInMs = 5400000L
+            if (timerOn){
+                Toast.makeText(this@MainActivity,"Nedtelling pågår", Toast.LENGTH_SHORT).show()
+            } else
+                updateCountDownDisplay(timeToCountDownInMs)
+        }
+
+        // 120 second count
+        hundredtwentybtn = findViewById<Button>(R.id.button4)
+        hundredtwentybtn.setOnClickListener(){
+            timeToCountDownInMs = 7200000
+            if (timerOn){
+                Toast.makeText(this@MainActivity,"Nedtelling pågår", Toast.LENGTH_SHORT).show()
+            } else
+                updateCountDownDisplay(timeToCountDownInMs)
+        }
+
        coutdownDisplay = findViewById<TextView>(R.id.countDownView)
 
     }
@@ -35,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         timer = object : CountDownTimer(timeToCountDownInMs,timeTicks) {
             override fun onFinish() {
                 Toast.makeText(this@MainActivity,"Arbeidsøkt er ferdig", Toast.LENGTH_SHORT).show()
+                timerOn = false
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -43,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         timer.start()
+        timerOn = true
     }
 
     fun updateCountDownDisplay(timeInMs:Long){
